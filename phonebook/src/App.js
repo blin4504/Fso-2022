@@ -1,9 +1,9 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [personToShow, setPersonToShow] = useState([])
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     personService
@@ -42,6 +43,7 @@ const App = () => {
       personService.create(personObject).then(addedPerson => {
         setPersons(persons.concat(addedPerson))
         setPersonToShow(personToShow.concat(addedPerson))
+        setNotification(`Added ${personObject.name}`)
       })
     }
     setNewName('')
@@ -54,6 +56,7 @@ const App = () => {
       personService.update(personToChange.id, personObject).then(newPerson => {
         setPersons(persons.map(person => person.id === personToChange.id ? personObject : person))
         setPersonToShow(persons.map(person => person.id === personToChange.id ? personObject : person))
+        setNotification(`Updated ${personObject.name}`)
       })
     }
   }
@@ -64,7 +67,7 @@ const App = () => {
     const peopleToShow = persons.filter(person => person.name.toLowerCase().includes(search))
     setPersonToShow(
       peopleToShow
-    );
+    )
   }
 
   const deletePerson = (person) => {
@@ -72,6 +75,7 @@ const App = () => {
       personService.deletion(person.id)
       setPersons(persons.filter(people => people.id !== person.id))
       setPersonToShow(personToShow.filter(people => people.id !== person.id))
+      setNotification(`Deleted ${person.name}`)
     }
   }
 
@@ -79,6 +83,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter filter={filter} filterPersons={filterPersons} />
+      <Notification message={notification} />
       <h3>Add a new person</h3>
       <PersonForm 
         addPerson={addPerson} newName={newName} 
