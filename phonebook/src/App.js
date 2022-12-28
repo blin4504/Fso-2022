@@ -22,12 +22,10 @@ const App = () => {
   }, [])
 
   const handleNewPerson = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
   const handleNewNumber = (event) => {
-    console.log(event.target.value)
     setNewNumber(event.target.value)
   }
 
