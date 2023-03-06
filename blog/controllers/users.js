@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const { request } = require('../app/app')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 
@@ -15,7 +14,7 @@ usersRouter.post('/', async (request, response) => {
         return response.status(400).json({
           error: "username and password are required",
         });
-      }
+    }
     
       if (username.length < 3 || password.length < 3) {
         return response.status(400).json({

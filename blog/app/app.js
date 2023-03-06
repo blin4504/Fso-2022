@@ -26,13 +26,13 @@ mongoose.connect(config.MONGODB_URI)
   app.use(middleware.requestLogger)
   app.use(middleware.tokenExtractor)
   app.use(middleware.userExtractor)
-
+  
+  app.use('/api/login', loginRouter)
   app.use('/api/blogs', blogsRouter)
   app.use('/api/users', usersRouter)
-  app.use('/api/login', loginRouter)
 
-  app.use(middleware.unknownEndpoint)
-  app.use(middleware.errorHandler)
+  // app.use(middleware.unknownEndpoint)
+  // app.use(middleware.errorHandler)
 
   module.exports = app
 
